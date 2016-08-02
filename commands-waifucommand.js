@@ -1168,3 +1168,7 @@ $.lang.register('waifucommand.waifu.1164', 'Meiko Ootsuka =Yamada-kun to 7-nin n
 $.lang.register('waifucommand.waifu.1165', 'Rika Saionji =Yamada-kun to 7-nin no Majo=');
 $.lang.register('waifucommand.waifu.1166', 'Maria Sarushima =Yamada-kun to 7-nin no Majo=');
 $.lang.register('waifucommand.waifu.1167', 'Noa Takigawa =Yamada-kun to 7-nin no Majo=');
+$.lang.register('waifucommand.waifu.1167', '+1 Naho Takamiya =Orange=');
+$.lang.register('waifucommand.waifu.1167', 'Takako Chino =Orange=');
+$.lang.register('waifucommand.waifu.1167', 'Azusa Murasaka =Orange=');
+$.lang.register('waifucommand.waifu.1167', 'Rio Ueda =Orange=');
