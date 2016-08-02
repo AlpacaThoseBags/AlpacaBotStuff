@@ -1179,3 +1179,5 @@ $.lang.register('waifucommand.waifu.1175', 'Chisato Mera =Saiki Kusuo no Psi Nan
 $.lang.register('waifucommand.waifu.1176', 'Kurumi Saiki =Saiki Kusuo no Psi Nan=');
 $.lang.register('waifucommand.waifu.1177', 'Kokomi Teruhashi =Saiki Kusuo no Psi Nan=');
 $.lang.register('waifucommand.waifu.1178', 'Chiyo Yumehara =Saiki Kusuo no Psi Nan=');
+$.lang.register('waifucommand.waifu.1179', '+1 Kat =Gravity Rush=');
+$.lang.register('waifucommand.waifu.1180', '+1 Raven =Gravity Rush=');
