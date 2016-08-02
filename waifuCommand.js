@@ -118,7 +118,7 @@
 
         if (waifu.includes('+1')) {
             $.panelsocketserver.alertImage(gifName+',5');
-            waifu = waifu.replace('\+\1', '[RARE]');
+            waifu = waifu.replace('\+1', '[RARE]');
             rare = '/me +500 Energy ';
             $.inidb.incr('points', username, 500);
         }
@@ -152,7 +152,7 @@
 
         if (waifu.includes('+1')) {
             $.panelsocketserver.alertImage(gifName+',5');
-            waifu = waifu.replace('\+\1', '[RARE]');
+            waifu = waifu.replace('\+1', '[RARE]');
             rare = '/me ';
         }
 
@@ -179,7 +179,7 @@
             rare = '';
 
         if (waifu.includes('+1')) {
-            waifu = waifu.replace('\+\1', '[RARE]');
+            waifu = waifu.replace('\+1', '[RARE]');
             rare = '/me ';
         }
 
@@ -214,7 +214,7 @@
             i;
 
             if (waifu.includes('+1')) {
-                waifu = waifu.replace('\+\1', '[RARE]');
+                waifu = waifu.replace('\+1', '[RARE]');
                 rare = '/me ';
             }
 
@@ -260,7 +260,7 @@
 
         if (waifu.includes('+1')) {
             $.panelsocketserver.alertImage(gifName+',5');
-            waifu = waifu.replace('\+\1', '[RARE]');
+            waifu = waifu.replace('\+1', '[RARE]');
             rare = '/me ';
         }
 
@@ -290,7 +290,7 @@
         if (waifu) {
             link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\1','').replace('\+\+', '+'));
             if (waifu.includes('+1')) {
-                waifu = waifu.replace('\+\1', '[RARE]');
+                waifu = waifu.replace('\+1', '[RARE]');
                 rare = '/me ';
             }
             $.say(rare + $.userPrefix(username, true) + 'waifu: ' + replace(waifu) + ' #' + waifuid  + '. You have (' + getAmount(username, parseInt(waifuid)) +'). ' + link);
