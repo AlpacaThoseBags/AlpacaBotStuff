@@ -74,7 +74,40 @@
     function getUserAmountWaifus(username, waifuid) {
         return ($.inidb.exists(username.toLowerCase(), 'waifu_' + waifuid) ? $.inidb.get(username.toLowerCase(), 'waifu_' + waifuid) : false);
     };
+    function getUserWaifuLevel(username) {
+        var waifuKeys = $.inidb.GetKeyList(username.toLowerCase(), ''),
+            level = Math.ceil(getUserListWaifus(username) / 5);
 
+        if (waifuKeys.length === 0) {
+            return level;
+        }
+        for (i in waifuKeys) {
+          var waifuId = waifuKeys[i].split('_')[1];
+          if ($.lang.get('waifucommand.waifu.' + waifuId).indexOf('+1') > -1) {
+                level++;
+            }
+        }
+        return level;
+    }
+
+    /**
+    * @function getUserAmountRares
+    * @param username
+    * @return amount of rare waifus the user has
+    */
+    function getUserAmountRares(username, waifuid) {
+
+      var waifuKeys = $.inidb.GetKeyList(username.toLowerCase(), ''),
+          rares = 0;
+
+        for (i in waifuKeys) {
+          var waifuId = waifuKeys[i].split('_')[1];
+          if ($.lang.get('waifucommand.waifu.' + waifuId).indexOf('+1') > -1) {
+                rares++;
+            }
+        }
+        return rares;
+    }
     /**
     * @function getUserAmountList
     * @param username
@@ -149,17 +182,19 @@
         if (waifu.includes('+1')) {
             waifu = waifu.replace('\+1', $.lang.get('waifucommand.rare'));
             rare = $.lang.get('waifucommand.rarecheck');
+
         }
 
         if (!getUserListWaifus(username)) {
             $.say($.lang.get('waifucommand.random.0', $.whisperPrefix(username)));
         } else {
+                var myLevel = getUserWaifuLevel(username);
             if (!getWowners(username)) {
-                $.say($.lang.get('waifucommand.random.success', $.userPrefix(username, true), replace(waifu), random, link));
+                $.say($.lang.get('waifucommand.random.success', $.userPrefix(username, true), replace(waifu), random, link, myLevel));
             } else {
                 waifu = getWaifu($.inidb.get('wowners', username));
                 link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\1','').replace('\+\+', '+'));
-                $.say($.lang.get('waifucommand.random.married', $.userPrefix(username, true), replace(waifu).replace('\+\1', $.lang.get('waifucommand.rare')), random, link));
+                $.say($.lang.get('waifucommand.random.married', $.userPrefix(username, true), replace(waifu).replace('\+\1', $.lang.get('waifucommand.rare')), random, link, myLevel));
             }
         }
     };
@@ -273,7 +308,8 @@
     * @return {string}
     */
     function checkWaifus(username) {
-        $.say($.lang.get('waifucommand.mywaifus.success', $.whisperPrefix(username), getUserWaifus(username), totalWaifus));
+      var myLevel = getUserWaifuLevel(username);
+        $.say($.lang.get('waifucommand.mywaifus.success', $.whisperPrefix(username), getUserWaifus(username), totalWaifus, myLevel, getUserAmountRares(username)));
     };
 
     /**
