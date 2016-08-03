@@ -106,10 +106,10 @@
     };
 
     /**
-    * @function unlockWaifu
+    * @function catchWaifu
     * @param username
     */
-    function unlockWaifu(username) {
+    function catchwaifu(username) {
         var random = $.randRange(0, totalWaifus),
             waifu = String(getRandomWaifu(random)),
             link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\1','').replace('\+\+', '+')),
@@ -118,52 +118,17 @@
 
         if (waifu.includes('+1')) {
             $.panelsocketserver.alertImage(gifName+',5');
-            waifu = waifu.replace('\+1', '[RARE]');
-            rare = '/me +500 Energy ';
+            waifu = waifu.replace('\+1', $.lang.get('waifucommand.rare'));
+            rare = $.lang.get('waifucommand.reward');
             $.inidb.incr('points', username, 500);
         }
 
         if (getUserWaifu(username, random)) {
-            $.say(rare + $.userPrefix(username, true) + 'you caught (+' + unlock + ') of ' + replace(waifu) + ' #' + random + '. ' + link + '!');
+            $.say($.lang.get('waifucommand.catch.own', rare + $.userPrefix(username, true), unlock, replace(waifu), random, link));
             $.inidb.incr(username, 'waifu_' + random, parseInt(unlock));
         } else {
-            $.say(rare + $.userPrefix(username, true) + 'caught [New] (+' + unlock + ') of ' + replace(waifu) + ' #' + random + '. ' + link);
+            $.say($.lang.get('waifucommand.catch.new', rare + $.userPrefix(username, true), unlock, replace(waifu), random, link));
             $.inidb.incr(username, 'waifu_' + random, parseInt(unlock));
-            $.inidb.set(username + '_list', (getUserListWaifus(username) + 1), random);
-        }
-    };
-
-    /**
-    * @function waifuRange
-    * @param username
-    * @param {number} range
-    */
-    function waifuRange(username, range) {
-        var random = $.randRange(0, range),
-            waifu = getRandomWaifu(random),
-            unlock = $.randRange(1, 3),
-            link,
-            rare = '';
-
-        if (range < 0 || !range) {
-            $.say($.whisperPrefix(username) + 'you can not select a number lower then 0.');
-            return;
-        }
-
-        if (waifu.includes('+1')) {
-            $.panelsocketserver.alertImage(gifName+',5');
-            waifu = waifu.replace('\+1', '[RARE]');
-            rare = '/me ';
-        }
-
-        link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\1','').replace('\+\+', '+'));
-
-        if (getUserWaifu(username, random)) {
-            $.say(rare + $.userPrefix(username, true) + 'you caught (+' + unlock + ') of ' + replace(waifu) + ' #' + random + '. ' + link + '!');
-            $.inidb.incr(username, 'waifu_' + random, unlock);
-        } else {
-            $.say(rare + $.userPrefix(username, true) + 'caught [New] (+' + unlock + ') of ' + replace(waifu) + ' #' + random + '. ' + link);
-            $.inidb.incr(username, 'waifu_' + random, unlock);
             $.inidb.set(username + '_list', (getUserListWaifus(username) + 1), random);
         }
     };
@@ -179,19 +144,19 @@
             rare = '';
 
         if (waifu.includes('+1')) {
-            waifu = waifu.replace('\+1', '[RARE]');
-            rare = '/me ';
+            waifu = waifu.replace('\+1', $.lang.get('waifucommand.rare'));
+            rare = $.lang.get('waifucommand.rarecheck');
         }
 
         if (!getUserListWaifus(username)) {
-            $.say(rare + $.whisperPrefix(username) + 'you don\'t have any waifus. Start collecting waifus with !unlockwaifu');
+            $.say($.lang.get('waifucommand.random.0', $.whisperPrefix(username)));
         } else {
             if (!getWowners(username)) {
-                $.say($.userPrefix(username, true) + 'your waifu is ' + replace(waifu) + ' #' + random + '. ' + link);
+                $.say($.lang.get('waifucommand.random.success', $.userPrefix(username, true), replace(waifu), random, link));
             } else {
                 waifu = getWaifu($.inidb.get('wowners', username));
                 link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\1','').replace('\+\+', '+'));
-                $.say(rare + $.userPrefix(username, true) + 'you are married to ' + replace(waifu).replace('\+\1', '[RARE]') + '. ' + link);
+                $.say($.lang.get('waifucommand.random.married', $.userPrefix(username, true), replace(waifu).replace('\+\1', $.lang.get('waifucommand.rare')), random, link));
             }
         }
     };
@@ -204,7 +169,7 @@
     */
     function sendWaifu(username, receiver, waifuid) {
         if (!waifuid) {
-            $.say($.whisperPrefix(username) + 'you must specify a user to send the waifu to.');
+            $.say($.lang.get('waifucommand.sendwaifu.nouser', $.whisperPrefix(username)));
             return;
         }
 
@@ -214,34 +179,34 @@
             i;
 
             if (waifu.includes('+1')) {
-                waifu = waifu.replace('\+1', '[RARE]');
-                rare = '/me ';
+                waifu = waifu.replace('\+1', $.lang.get('waifucommand.rare'));
+                rare = $.lang.get('waifucommand.rarecheck');
             }
 
         if ($.inidb.get(username, 'waifu_' + waifuid) >= 1 && waifu) {
-            link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join('').split(';').join('+').replace('[RARE]',''));
+            link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join('').split(';').join('+').replace($.lang.get('waifucommand.rare'),''));
             for (i in keys) {
                 if ($.inidb.get(username, 'waifu_' + waifu) < 1) {
                     $.inidb.del(username + '_list', keys[i]);
                     break;
                 }
             }
-            $.say($.userPrefix(username, true) + 'you have sent waifu: ' + replace(waifu) + ' to ' + $.userPrefix(receiver) + '. ' + link);
+            $.say($.lang.get('waifucommand.sendwaifu.success', $.userPrefix(username, true), replace(waifu), $.userPrefix(receiver), link));
             $.inidb.set(receiver + '_list', (getUserListWaifus(receiver) + 1), waifuid);
             $.inidb.decr(username, 'waifu_' + waifuid, 1);
             $.inidb.incr(receiver, 'waifu_' + waifuid, 1);
         } else {
-            $.say($.userPrefix(username, true) + 'you don\'t own enough of that waifu or it does not exists.');
+            $.say($.lang.get('waifucommand.sendwaifu.404', $.userPrefix(username, true)));
         }
     };
 
     /**
-    * @function forceWaifu
+    * @function buyWaifu
     * @param username
     * @param receiver
     * @param {number} waifuid
     */
-    function forceWaifu(event, username, receiver, waifuid) {
+    function buyWaifu(event, username, receiver, waifuid) {
         if (!waifuid) {
             receiver = event.getSender();
             waifuid = event.getArgs()[0];
@@ -254,23 +219,23 @@
             rare = '';
 
         if (!waifu) {
-            $.say($.whisperPrefix(username) + 'that waifu does not exist.');
+            $.say($.lang.get('waifucommand.exist.404', $.whisperPrefix(username)));
             return;
         }
 
         if (waifu.includes('+1')) {
             $.panelsocketserver.alertImage(gifName+',5');
-            waifu = waifu.replace('\+1', '[RARE]');
-            rare = '/me ';
+            waifu = waifu.replace('\+1', $.lang.get('waifucommand.rare'));
+            rare = $.lang.get('waifucommand.rarecheck');
         }
 
-        link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join('').replace('[RARE]',''));
+        link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join('').replace($.lang.get('waifucommand.rare'),''));
 
         if ($.inidb.exists(receiver, 'waifu_' + waifu) && waifu) {
-            $.say(rare + $.userPrefix(receiver, true) + 'you caught (+' + unlock + ') of ' + replace(waifu) + ' #' + waifuid + '. ' + link + '!');
+            $.say($.lang.get('waifucommand.buywaifu.own', rare + $.userPrefix(receiver, true), unlock, replace(waifu), waifuid, link));
             $.inidb.incr(receiver, 'waifu_' + waifuid, 1);
         } else {
-            $.say(rare + $.userPrefix(receiver, true) + 'caught [New] (+' + unlock + ') of ' + replace(waifu) + ' #' + waifuid + '. ' + link);
+            $.say($.lang.get('waifucommand.buywaifu.new', rare + $.userPrefix(receiver, true), unlock, replace(waifu), waifuid, link));
             $.inidb.incr(receiver, 'waifu_' + waifuid, 1);
             $.inidb.set(receiver + '_list', (getUserListWaifus(receiver) + 1), waifuid);
         }
@@ -290,12 +255,12 @@
         if (waifu) {
             link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\1','').replace('\+\+', '+'));
             if (waifu.includes('+1')) {
-                waifu = waifu.replace('\+1', '[RARE]');
-                rare = '/me ';
+                waifu = waifu.replace('\+1', $.lang.get('waifucommand.rare'));
+                rare = $.lang.get('waifucommand.rarecheck');
             }
-            $.say(rare + $.userPrefix(username, true) + 'waifu: ' + replace(waifu) + ' #' + waifuid  + '. You have (' + getAmount(username, parseInt(waifuid)) +'). ' + link);
+            $.say($.lang.get('waifucommand.checkwaifu.success', rare + $.userPrefix(username, true), replace(waifu), waifuid, getAmount(username, parseInt(waifuid)), link));
         } else {
-            $.say($.whisperPrefix(username) + 'that waifu does not exist.');
+            $.say($.lang.get('waifucommand.exist.404', $.whisperPrefix(username)));
         }
     };
 
@@ -305,7 +270,7 @@
     * @return {string}
     */
     function checkWaifus(username) {
-        $.say($.whisperPrefix(username) + 'you have ' + getUserWaifus(username) + ' out of ' + totalWaifus + ' waifus.');
+        $.say($.lang.get('waifucommand.mywaifus.success', $.whisperPrefix(username), getUserWaifus(username), totalWaifus));
     };
 
     /**
@@ -316,15 +281,15 @@
     */
     function setWaifu(username, waifuid) {
         if (!waifuid) {
-            $.say($.whisperPrefix(sender) + 'you must specify a waifu id.');
+            $.say($.lang.get('waifucommand.marry.null', $.whisperPrefix(sender)));
             return;
         }
 
         if (getWaifu(waifuid) && getUserWaifu(username, waifuid)) {
-            $.say($.userPrefix(username, true) + 'you married ' + replace(getWaifu(waifuid)).replace('\+\1', '[RARE]') + '!');
+            $.say($.lang.get('waifucommand.marry.success', $.userPrefix(username, true), replace(getWaifu(waifuid)).replace('\+\1', $.lang.get('waifucommand.rare'))));
             $.inidb.set('wowners', username, waifuid);
         } else {
-            $.say($.whisperPrefix(username) + 'that waifu does not exist.');
+            $.say($.lang.get('waifucommand.exist.404', $.whisperPrefix(username)));
         }
     };
 
@@ -364,8 +329,8 @@
             checkWaifu(sender, action);
         }
 
-        if (command.equalsIgnoreCase('unlockwaifu')) {
-            unlockWaifu(sender);
+        if (command.equalsIgnoreCase('catchwaifu')) {
+            catchwaifu(sender);
         }
 
         if (command.equalsIgnoreCase('unpackwaifu')) {
@@ -376,8 +341,8 @@
             sendWaifu(sender, action, parseInt(subAction))
         }
 
-        if (command.equalsIgnoreCase('forcewaifu')) {
-            forceWaifu(event, sender, action, subAction);
+        if (command.equalsIgnoreCase('buywaifu')) {
+            buyWaifu(event, sender, action, subAction);
         }
 
         if (command.equalsIgnoreCase('mywaifus')) {
@@ -391,17 +356,14 @@
         if (command.equalsIgnoreCase('splitwaifu')) {
             if (getWowners(sender)) {
                 $.inidb.del('wowners', sender);
-                $.say($.whisperPrefix(sender) + 'you are now single.');
+                $.say($.lang.get('waifucommand.split.success', $.whisperPrefix(sender)));
                 return;
             }
-            $.say($.whisperPrefix(sender) + 'you are not married, yet.');
+            $.say($.lang.get('waifucommand.split.404', $.whisperPrefix(sender)));
         }
 
         if (command.equalsIgnoreCase('waifuhelp')) {
-            $.say($.whisperPrefix(sender)
-            + '!waifu - for a random waifu you own | !unlockwaifu - adds a random waifu to your list | '
-            + '!setwaifu - sets a waifu on your list to default for when you use !waifu | '
-            + '!waifu <id#> - checks for waifu data on that number and shows if you have it | !sendwaifu <id#> <person> - sends a waifu to specified target.');
+            $.say($.whisperPrefix(sender) + $.lang.exists('waifucommand.waifuhelp'));
         }
     });
 
@@ -413,12 +375,11 @@
             loadWaifus();
             $.registerChatCommand('./commands/waifuCommand.js', 'waifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'mywaifus');
-            $.registerChatCommand('./commands/waifuCommand.js', 'unlockwaifu');
-            $.registerChatCommand('./commands/waifuCommand.js', 'unpackwaifu');
+            $.registerChatCommand('./commands/waifuCommand.js', 'catchwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'sendwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'splitwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'setwaifu');
-            $.registerChatCommand('./commands/waifuCommand.js', 'forcewaifu', 1);
+            $.registerChatCommand('./commands/waifuCommand.js', 'buywaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'waifuhelp');
         }
     });
