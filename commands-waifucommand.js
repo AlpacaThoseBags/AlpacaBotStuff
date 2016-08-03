@@ -1,3 +1,25 @@
+$.lang.register('waifucommand.waifuhelp', 'Usage: !waifu, !mywaifus, !catchwaifu, !setwaifu, !splitwaifu, !buywaifu, !sendwaifu');
+$.lang.register('waifucommand.split.success', '$1 you are now single');
+$.lang.register('waifucommand.split.404', '$1 you are not married, yet.');
+$.lang.register('waifucommand.marry.success', '$1 you married $2');
+$.lang.register('waifucommand.marry.null', '$1 you must specify a waifu id.');
+$.lang.register('waifucommand.exist.404', '$1 that waifu does not exist.');
+$.lang.register('waifucommand.mywaifus.success', '$1 you have  $2 out of $3 waifus.');
+$.lang.register('waifucommand.checkwaifu.success', '$1 waifu: $2 #$3. You have ($4). $5');
+$.lang.register('waifucommand.catch.own', '$1 you caught (+$2) of $3 #$4. $5!');
+$.lang.register('waifucommand.catch.new', '$1 you caught [New] (+$2) of $3 #$4. $5!');
+$.lang.register('waifucommand.sendwaifu.nouser', '$1, you must specify a user to send the waifu to.');
+$.lang.register('waifucommand.sendwaifu.404', '$1, you don\'t own enough of that waifu or it does not exists.');
+$.lang.register('waifucommand.sendwaifu.success', '$1 you have sent waifu: $2 to $3. $4');
+$.lang.register('waifucommand.random.0', '$1 you don\'t have any waifus. Start collecting waifus with !catchwaifu');
+$.lang.register('waifucommand.random.success', '$1 your waifu is $2 #$3. $4');
+$.lang.register('waifucommand.random.married', '$1 you are married to $2. $3');
+$.lang.register('waifucommand.buywaifu.own', '$1 you bought (+$2) of $3 #$4. $5!');
+$.lang.register('waifucommand.buywaifu.new', '$1 you bought [New] (+$2) of $3 #$4. $5!');
+$.lang.register('waifucommand.rare', '[RARE]');
+$.lang.register('waifucommand.reward', '/me +500 Energy ');
+$.lang.register('waifucommand.rarecheck', '/me ');
+
 $.lang.register('waifucommand.waifu.0', 'Kanon Kanase =Strike the Blood=');
 $.lang.register('waifucommand.waifu.1', 'Sayaka Kirasaka =Strike the Blood=');
 $.lang.register('waifucommand.waifu.2', 'Reina Akatsuki =Strike the Blood=');
@@ -651,7 +673,7 @@ $.lang.register('waifucommand.waifu.649', '+1 Fremy Speeddraw =Rokka: Braves of 
 $.lang.register('waifucommand.waifu.650', 'Nashetania Loei Piena Augustra =Rokka: Braves of the Six Flowers=');
 $.lang.register('waifucommand.waifu.651', 'Mora Chester =Rokka: Braves of the Six Flowers=');
 $.lang.register('waifucommand.waifu.652', 'Chamo Rosso =Rokka: Braves of the Six Flowers=');
-$.lang.register('waifucommand.waifu.653', 'Shirayuki =Snow White with the Red Hair=');
+$.lang.register('waifucommand.waifu.653', '+1 Shirayuki =Snow White with the Red Hair=');
 $.lang.register('waifucommand.waifu.654', 'Kiki Seiran =Snow White with the Red Hair=');
 $.lang.register('waifucommand.waifu.655', 'Garack Gazelt =Snow White with the Red Hair=');
 $.lang.register('waifucommand.waifu.656', '+1 Nao Tomori  =Charlotte=');
