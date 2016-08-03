@@ -7,10 +7,13 @@
     * @function loadWaifus
     */
     function loadWaifus() {
-        var i;
+        var i,
+            data = "";
         for (i = 1; $.lang.exists('waifucommand.waifu.' + i); i++) {
+            data += 'Waifu #' + totalWaifus + ' ' + replace($.lang.get('waifucommand.waifu.' + totalWaifus).replace(/\+1/, "[RARE]")) + '\r\n';
             totalWaifus++;
         }
+        $.writeToFile(data, './addons/waifus.txt', false);
     };
 
     /**
