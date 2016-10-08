@@ -1204,3 +1204,17 @@ $.lang.register('waifucommand.waifu.1177', 'Kokomi Teruhashi =Saiki Kusuo no Psi
 $.lang.register('waifucommand.waifu.1178', 'Chiyo Yumehara =Saiki Kusuo no Psi Nan=');
 $.lang.register('waifucommand.waifu.1179', '+1 Kat =Gravity Rush=');
 $.lang.register('waifucommand.waifu.1180', '+1 Raven =Gravity Rush=');
+$.lang.register('waifucommand.waifu.1181', '+1 Ryouka Narusawa =Occultic;Nine=');
+$.lang.register('waifucommand.waifu.1182', '+1 Miyuu Aikawa =Occultic;Nine=');
+$.lang.register('waifucommand.waifu.1183', 'Aria Kureinaino  =Occultic;Nine=');
+$.lang.register('waifucommand.waifu.1184', 'Touko Sumikaze =Occultic;Nine=');
+$.lang.register('waifucommand.waifu.1185', 'Ririka Nishizono =Occultic;Nine=');
+$.lang.register('waifucommand.waifu.1186', 'Ortfiné Fredericka von Eylstadt =Shuumatsu no Izetta=');
+$.lang.register('waifucommand.waifu.1187', '+1 Izetta =Shuumatsu no Izetta=');
+$.lang.register('waifucommand.waifu.1188', 'Ervira =Shuumatsu no Izetta=');
+$.lang.register('waifucommand.waifu.1189', 'Bianca =Shuumatsu no Izetta=');
+$.lang.register('waifucommand.waifu.1190', 'Lotte =Shuumatsu no Izetta=');
+$.lang.register('waifucommand.waifu.1191', '+1 Hana Miyakoshi =WWW.Working!!=');
+$.lang.register('waifucommand.waifu.1192', 'Kisaki Kondou =WWW.Working!!=');
+$.lang.register('waifucommand.waifu.1193', 'Sayuri Muranushi =WWW.Working!!=');
+$.lang.register('waifucommand.waifu.1194', 'Shiho Kamakura =WWW.Working!!=');
