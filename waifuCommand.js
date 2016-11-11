@@ -29,6 +29,8 @@
         }
     };
 
+
+
     /**
     * @function getRandomWaifu
     * @param waifu
@@ -145,14 +147,14 @@
     * @function catchWaifu
     * @param username
     */
-    function catchwaifu(username) {
+    function catchWaifu(username) {
         var random = $.randRange(0, totalWaifus),
             waifu = String(getRandomWaifu(random)),
             link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\+', '+')),
             unlock = $.randRange(1, 2),
             rare = '';
 
-        if (waifu.includes('[Rare]')) {
+        if (waifu.includes('[Rare]') && !getUserWaifu(username, random)) {
             rare = '/me [Rare] +' + $.getPointsString(500) + ' ';
             waifu = waifu.replace('[Rare]', '');
             $.panelsocketserver.alertImage(gifName+',5');
@@ -331,6 +333,53 @@
             $.say($.lang.get('waifucommand.exist.404', $.whisperPrefix(username)));
         }
     };
+    /**
+    * @function setHarem
+    * @param username
+    * @param {number} waifuid
+    * @return {string}
+    */
+    function setHarem(username, waifuid) {
+      var harem = $.inidb.GetKeyList('harem', username);
+        if (!waifuid) {
+            $.say($.lang.get('waifucommand.harem.null', $.whisperPrefix(sender)));
+            return;
+        }
+
+        if (getWaifu(waifuid) && getUserWaifu(username, waifuid)) {
+          if (harem.length > 4) {
+            $.say($.lang.get('waifucommand.harem.denied'));
+            return;
+          } else {
+            $.say($.lang.get('waifucommand.harem.success', $.userPrefix(username, true), replace(getWaifu(waifuid))));
+            $.inidb.SetString('harem', username, waifuid, waifuid);
+          }
+
+        } else {
+            $.say($.lang.get('waifucommand.harem.404', $.whisperPrefix(username)));
+        }
+    };
+
+    /**
+    * @function getHarem
+    * @param waifu
+    * @return waifu with that id
+    */
+    function getHarem(username) {
+    var harem = $.inidb.GetKeyList('harem', username);
+    var girls = [];
+      for (i in harem) {
+        girls.push($.lang.get('waifucommand.waifu.' + harem[i]).split('=')[0]);
+      }
+    var theharem = harem.join(', ');
+          if (harem.length >= 1) {
+          $.say(username + $.lang.get('waifucommand.harem.get', girls.join(', ')));
+          return;
+      } else {
+          $.say($.lang.get('waifucommand.harem.404'));
+          return;
+      }
+  };
 
     /**
     * @function getWowners
@@ -368,8 +417,16 @@
             checkWaifu(sender, action);
         }
 
+        if (command.equalsIgnoreCase('harem')) {
+            getHarem(sender);
+        }
+
+        if (command.equalsIgnoreCase('addharem')) {
+            setHarem(sender, action);
+        }
+
         if (command.equalsIgnoreCase('catchwaifu')) {
-            catchwaifu(sender);
+            catchWaifu(sender);
         }
 
         if (command.equalsIgnoreCase('unpackwaifu')) {
@@ -419,6 +476,8 @@
             $.registerChatCommand('./commands/waifuCommand.js', 'splitwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'setwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'buywaifu');
+            $.registerChatCommand('./commands/waifuCommand.js', 'harem');
+            $.registerChatCommand('./commands/waifuCommand.js', 'addharem');
             $.registerChatCommand('./commands/waifuCommand.js', 'waifuhelp');
         }
     });
