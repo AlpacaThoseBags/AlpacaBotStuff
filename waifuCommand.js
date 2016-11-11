@@ -424,13 +424,13 @@
         if (command.equalsIgnoreCase('addharem')) {
             setHarem(sender, action);
         }
-
+        if (command.equalsIgnoreCase('resetharem')) {
+            $.inidb.RemoveSection('harem', sender);
+            $.say($.whisperPrefix(sender) + $.lang.get('waifucommand.harem.reset'));
+            return;
+        }
         if (command.equalsIgnoreCase('catchwaifu')) {
             catchWaifu(sender);
-        }
-
-        if (command.equalsIgnoreCase('unpackwaifu')) {
-            waifuRange(sender, parseInt(action));
         }
 
         if (command.equalsIgnoreCase('sendwaifu')) {
@@ -478,6 +478,7 @@
             $.registerChatCommand('./commands/waifuCommand.js', 'buywaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'harem');
             $.registerChatCommand('./commands/waifuCommand.js', 'addharem');
+            $.registerChatCommand('./commands/waifuCommand.js', 'resetharem');
             $.registerChatCommand('./commands/waifuCommand.js', 'waifuhelp');
         }
     });
