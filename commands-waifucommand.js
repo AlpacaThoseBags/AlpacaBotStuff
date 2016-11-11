@@ -1,4 +1,4 @@
-$.lang.register('waifucommand.waifuhelp', 'Usage: !waifu, !mywaifus, !catchwaifu, !setwaifu, !splitwaifu, !buywaifu, !sendwaifu, !harem, !addharem');
+$.lang.register('waifucommand.waifuhelp', 'Usage: !waifu, !mywaifus, !catchwaifu, !setwaifu, !splitwaifu, !buywaifu, !sendwaifu, !harem, !addharem, !resetharem');
 $.lang.register('waifucommand.split.success', '$1 is now single');
 $.lang.register('waifucommand.split.404', '$1 you are not married.');
 $.lang.register('waifucommand.marry.success', '$1 married $2');
@@ -22,6 +22,7 @@ $.lang.register('waifucommand.harem.null', '$1 you must specify a waifu id.');
 $.lang.register('waifucommand.harem.success', '$1 you\'ve added $2 to your harem!');
 $.lang.register('waifucommand.harem.get', '$1 your current harem is: $2');
 $.lang.register('waifucommand.harem.denied', 'You\'ve hit the maximum of 5 waifus in your harem!');
+$.lang.register('waifucommand.harem.reset', 'your harem has been disbanded!');
 $.lang.register('waifucommand.harem.404', 'You don\'t have a harem yet!');
 $.lang.register('waifucommand.reward', '+500 $1 ');
 
