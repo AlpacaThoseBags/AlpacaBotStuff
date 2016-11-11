@@ -20,7 +20,7 @@ $.lang.register('waifucommand.buywaifu.own', '$1 bought another $2 of: $3 #$4. $
 $.lang.register('waifucommand.buywaifu.new', '$1 bought $2 of: $3 #$4. $5! [New]');
 $.lang.register('waifucommand.harem.null', '$1 you must specify a waifu id.');
 $.lang.register('waifucommand.harem.success', '$1, you\'ve added $2 to your harem!');
-$.lang.register('waifucommand.harem.get', ' your current harem is: $1');
+$.lang.register('waifucommand.harem.get', '$1, your current harem is: $2');
 $.lang.register('waifucommand.harem.denied', 'You\'ve hit the maximum of 5 waifus in your harem!');
 $.lang.register('waifucommand.harem.404', 'You don\'t have a harem yet!');
 $.lang.register('waifucommand.reward', '+500 $1 ');
