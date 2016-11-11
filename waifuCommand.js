@@ -369,11 +369,11 @@
     var harem = $.inidb.GetKeyList('harem', username);
     var girls = [];
       for (i in harem) {
-        girls.push($.lang.get('waifucommand.waifu.' + harem[i]).split('=')[0]);
+        girls.push($.lang.get('waifucommand.waifu.' + harem[i]).split('=')[0].replace('[Rare]', ''));
       }
     var theharem = harem.join(', ');
           if (harem.length >= 1) {
-          $.say(username + $.lang.get('waifucommand.harem.get', girls.join(', ')));
+          $.say($.lang.get('waifucommand.harem.get',  $.whisperPrefix(username), girls.join(', ')));
           return;
       } else {
           $.say($.lang.get('waifucommand.harem.404'));
