@@ -106,7 +106,7 @@
         }
         for (i in waifuKeys) {
           var waifuId = waifuKeys[i].split('_')[1];
-          if ($.lang.get('waifucommand.waifu.' + waifuId).indexOf('+1') > -1) {
+          if ($.lang.get('waifucommand.waifu.' + waifuId).indexOf('[Rare]') > -1) {
                 level++;
             }
         }
@@ -171,7 +171,7 @@
     function catchWaifu(username) {
         var random = $.randRange(0, totalWaifus),
             waifu = String(getRandomWaifu(random)),
-            link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\+', '+')),
+            link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\+', '+').replace('[Rare]', '')),
             unlock = $.randRange(1, 2),
             rare = '';
 
@@ -201,13 +201,8 @@
     function randomWaifu(username) {
         var random = $.randRange(0, getUserListWaifus(username)),
             waifu = getWaifu(random),
-            link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\+', '+')),
+            link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\+', '+').replace('[Rare]', '')),
             rare = '';
-
-        if (waifu.includes('[Rare]')) {
-            rare = $.lang.get('waifucommand.rarecheck');
-
-        }
 
         if (!getUserListWaifus(username)) {
             $.say($.lang.get('waifucommand.random.0', $.whisperPrefix(username)));
@@ -240,12 +235,8 @@
             link,
             i;
 
-            if (waifu.includes('[Rare]')) {
-                rare = $.lang.get('waifucommand.rarecheck');
-            }
-
         if ($.inidb.get(username, 'waifu_' + waifuid) >= 1 && waifu) {
-            link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join('').split(';').join('+'));
+            link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join('').split(';').join('+').replace('[Rare]', ''));
             for (i in keys) {
                 if ($.inidb.get(username, 'waifu_' + waifu) < 1) {
                     $.inidb.del(username + '_list', keys[i]);
@@ -286,10 +277,9 @@
 
         if (waifu.includes('[Rare]')) {
             $.panelsocketserver.alertImage(gifName+',5');
-            rare = $.lang.get('waifucommand.rarecheck');
         }
 
-        link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join(''));
+        link = (google + waifu.split('=').join('+').split('\ =').join('+').split(' ').join('+').split('*').join('').replace('[Rare]', ''));
 
         if ($.inidb.exists(receiver, 'waifu_' + waifu) && waifu) {
             $.say($.lang.get('waifucommand.buywaifu.own', rare + $.userPrefix(receiver, true), unlock, replace(waifu), waifuid, $.shortenURL.getShortURL(link)));
@@ -313,11 +303,7 @@
             rare = '';
 
         if (waifu) {
-            link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\+', '+'));
-
-            if (waifu.includes('[Rare]')) {
-                rare = $.lang.get('waifucommand.rarecheck');
-            }
+            link = (google + waifu.split('=').join('+').split('!').join('').split(' ').join('+').split('*').join('').split(';').join('+').replace('\+\+', '+').replace('[Rare]', ''));
 
             $.say($.lang.get('waifucommand.checkwaifu.success', rare + $.userPrefix(username, true), replace(waifu), waifuid, getAmount(username, parseInt(waifuid)), $.shortenURL.getShortURL(link)));
         } else {
@@ -355,12 +341,12 @@
         }
     };
     /**
-    * @function setHarem
+    * @function addHarem
     * @param username
     * @param {number} waifuid
     * @return {string}
     */
-    function setHarem(username, waifuid) {
+    function addHarem(username, waifuid) {
       var harem = $.inidb.GetKeyList('harem', username);
         if (!waifuid) {
             $.say($.lang.get('waifucommand.harem.null', $.whisperPrefix(sender)));
@@ -406,21 +392,54 @@
           return;
       }
   };
-
   /**
   * @function battle
   * @param waifu
   * @return waifu with that id
   */
+  function delHarem(sender, action) {
+    if (!$.inidb.HasKey('harem', sender, action)) {
+      $.say($.whisperPrefix(sender) + $.lang.get('waifucommand.harem.kick404'));
+      return;
+    } else {
+      $.inidb.RemoveKey('harem', sender, action);
+      $.say($.whisperPrefix(sender) + $.lang.get('waifucommand.harem.kick', replace(getWaifu(action))));
+      return;
+    }
+  };
+
+  /**
+  * @function battle
+  * @param waifu
+  * @return Battle with another waifu
+  */
   function startBattle(username, opponent) {
-  var random1 = $.randRange(1, responseCounts.win),
-  random2 = $.randRange(1, responseCounts.stalemate),
-  random3 = $.randRange(1, responseCounts.lost),
-  results =  $.randRange(1, 10),
-  harem = $.inidb.GetKeyList('harem', username),
-  harem2 = $.inidb.GetKeyList('harem', opponent.toLowerCase()),
-  attacked = opponent,
-  attacker = username;
+    var random1 = $.randRange(1, responseCounts.win),
+    random2 = $.randRange(1, responseCounts.stalemate),
+    random3 = $.randRange(1, responseCounts.lost),
+    results =  $.randRange(1, 10),
+    harem = $.inidb.GetKeyList('harem', username),
+    harem2,
+    battlewaifu,
+    battlewaifu2,
+    attacked,
+    attacker = $.userPrefix(username);
+
+    if (opponent === undefined) {
+        $.say($.lang.get('waifuCommand.fight.usage'));
+        return;
+    }
+
+    if (!opponent === undefined && opponent.startsWith('@')) {
+        attacked = opponent;
+        opponent = opponent.substring(1).toLowerCase();
+    } else {
+        attacked = $.userPrefix(opponent);
+    }
+
+    harem2 = $.inidb.GetKeyList('harem', opponent);
+    battlewaifu = getWaifu($.randElement(harem)).split(' =')[0].replace('[Rare] ', '');
+    battlewaifu2 = getWaifu($.randElement(harem2)).split(' =')[0].replace('[Rare] ', '');
 
         if (opponent == username) {
            $.say($.lang.get('waifucommand.harem.same'));
@@ -429,14 +448,14 @@
 
         if (harem.length > 0 && harem2.length > 0) {
           if (results > 5) {
-            $.say($.lang.get('waifuCommand.win.' + random1, $.lang.get('waifucommand.waifu.' + $.randElement(harem)).split(' =')[0].replace('[Rare] ', ''), $.lang.get('waifucommand.waifu.' + $.randElement(harem2)).split(' =')[0].replace('[Rare] ', ''), attacker, attacked, $.pointNameMultiple));
+            $.say($.lang.get('waifuCommand.win.' + random1, battlewaifu, battlewaifu2, attacker, attacked, $.pointNameMultiple));
             $.inidb.incr('points', username, 25);
             return;
           } else if (results == 5){
-            $.say($.lang.get('waifuCommand.stalemate.' + random2, $.lang.get('waifucommand.waifu.' + $.randElement(harem)).split(' =')[0].replace('[Rare] ', ''), $.lang.get('waifucommand.waifu.' + $.randElement(harem2)).split(' =')[0].replace('[Rare] ', ''), attacker, attacked, $.pointNameMultiple));
+            $.say($.lang.get('waifuCommand.stalemate.' + random2, battlewaifu, battlewaifu2, attacker, attacked, $.pointNameMultiple));
             return;
           } else {
-            $.say($.lang.get('waifuCommand.lose.' + random3, $.lang.get('waifucommand.waifu.' + $.randElement(harem)).split(' =')[0].replace('[Rare] ', ''), $.lang.get('waifucommand.waifu.' + $.randElement(harem2)).split(' =')[0].replace('[Rare] ', ''), attacker, attacked, $.pointNameMultiple));
+            $.say($.lang.get('waifuCommand.lose.' + random3, battlewaifu, battlewaifu2, attacker, attacked, $.pointNameMultiple));
             $.inidb.incr('points', opponent, 25);
             return;
           }
@@ -483,7 +502,7 @@
             checkWaifu(sender, action);
         }
 
-        if (command.equalsIgnoreCase('battle')) {
+        if (command.equalsIgnoreCase('keijo')) {
             startBattle(sender, action);
         }
 
@@ -492,7 +511,10 @@
         }
 
         if (command.equalsIgnoreCase('addharem')) {
-            setHarem(sender, action);
+            addHarem(sender, action);
+        }
+        if (command.equalsIgnoreCase('kickharem')) {
+            delHarem(sender, action);
         }
         if (command.equalsIgnoreCase('resetharem')) {
             $.inidb.RemoveSection('harem', sender);
@@ -511,7 +533,7 @@
             buyWaifu(event, sender, action, subAction);
         }
 
-        if (command.equalsIgnoreCase('mywaifus')) {
+        if (command.equalsIgnoreCase('waifus')) {
             checkWaifus(sender);
         }
 
@@ -519,7 +541,7 @@
             setWaifu(sender, action);
         }
 
-        if (command.equalsIgnoreCase('splitwaifu')) {
+        if (command.equalsIgnoreCase('resetwaifu')) {
             if (getWowners(sender)) {
                 $.inidb.del('wowners', sender);
                 $.say($.lang.get('waifucommand.split.success', $.whisperPrefix(sender)));
@@ -541,15 +563,16 @@
             loadWaifus(),
             loadResponses();
             $.registerChatCommand('./commands/waifuCommand.js', 'waifu');
-            $.registerChatCommand('./commands/waifuCommand.js', 'mywaifus');
+            $.registerChatCommand('./commands/waifuCommand.js', 'waifus');
+            $.registerChatCommand('./commands/waifuCommand.js', 'keijo');
             $.registerChatCommand('./commands/waifuCommand.js', 'catchwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'sendwaifu');
-            $.registerChatCommand('./commands/waifuCommand.js', 'splitwaifu');
+            $.registerChatCommand('./commands/waifuCommand.js', 'resetwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'setwaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'buywaifu');
             $.registerChatCommand('./commands/waifuCommand.js', 'harem');
-            $.registerChatCommand('./commands/waifuCommand.js', 'battle');
             $.registerChatCommand('./commands/waifuCommand.js', 'addharem');
+            $.registerChatCommand('./commands/waifuCommand.js', 'kickharem');
             $.registerChatCommand('./commands/waifuCommand.js', 'resetharem');
             $.registerChatCommand('./commands/waifuCommand.js', 'waifuhelp');
         }
