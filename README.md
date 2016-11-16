@@ -12,7 +12,7 @@ Commands:
 !waifuhelp  
 !sendwaifu <name> <id>  
 !buywaifu <id>  
-!setwaifu <id>
+!setwaifu <id>  
 !splitwaifu <id>  
 !harem  
 !addharem <id>  
