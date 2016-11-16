@@ -430,7 +430,7 @@
         return;
     }
 
-    if (!opponent === undefined && opponent.startsWith('@')) {
+    if (opponent.startsWith('@')) {
         attacked = opponent;
         opponent = opponent.substring(1).toLowerCase();
     } else {
@@ -438,8 +438,8 @@
     }
 
     harem2 = $.inidb.GetKeyList('harem', opponent);
-    battlewaifu = getWaifu($.randElement(harem)).split(' =')[0].replace('[Rare] ', '');
-    battlewaifu2 = getWaifu($.randElement(harem2)).split(' =')[0].replace('[Rare] ', '');
+    battlewaifu = getWaifu($.randElement(harem));
+    battlewaifu2 = getWaifu($.randElement(harem2));
 
         if (opponent == username) {
            $.say($.lang.get('waifucommand.harem.same'));
@@ -448,18 +448,21 @@
 
         if (harem.length > 0 && harem2.length > 0) {
           if (results > 5) {
-            $.say($.lang.get('waifuCommand.win.' + random1, battlewaifu, battlewaifu2, attacker, attacked, $.pointNameMultiple));
+            $.say($.lang.get('waifuCommand.win.' + random1, replace2(battlewaifu), replace2(battlewaifu2), attacker, attacked, $.pointNameMultiple));
             $.inidb.incr('points', username, 25);
             return;
           } else if (results == 5){
-            $.say($.lang.get('waifuCommand.stalemate.' + random2, battlewaifu, battlewaifu2, attacker, attacked, $.pointNameMultiple));
+            $.say($.lang.get('waifuCommand.stalemate.' + random2, replace2(battlewaifu), replace2(battlewaifu2), attacker, attacked, $.pointNameMultiple));
             return;
           } else {
-            $.say($.lang.get('waifuCommand.lose.' + random3, battlewaifu, battlewaifu2, attacker, attacked, $.pointNameMultiple));
+            $.say($.lang.get('waifuCommand.lose.' + random3, replace2(battlewaifu), replace2(battlewaifu2), attacker, attacked, $.pointNameMultiple));
             $.inidb.incr('points', opponent, 25);
             return;
           }
 
+    } else if (!harem2.length > 0){
+        $.say($.lang.get('waifucommand.harem.fight4042'));
+        return;
     } else {
         $.say($.lang.get('waifucommand.harem.fight404'));
         return;
@@ -482,7 +485,16 @@
     */
     function replace(string) {
         return (string.replace(/=/, '(').replace(/=/g, ')'));
-    }
+    };
+
+    /**
+    * @function split
+    * @param string
+    * @return string
+    */
+    function replace2(string) {
+        return (string.split(/ =/)[0].replace('[Rare] ', ''));
+    };
 
     /**
     * @event command
